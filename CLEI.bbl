@@ -93,22 +93,6 @@ G.~Matei and R.~C. Bank, ``Column-oriented databases, an alternative for
   analytical environment,'' \emph{Database Systems Journal}, vol.~1, no.~2, pp.
   3--16, 2010.
 
-\bibitem{decandia2007dynamo}
-G.~DeCandia, D.~Hastorun, M.~Jampani, G.~Kakulapati, A.~Lakshman, A.~Pilchin,
-  S.~Sivasubramanian, P.~Vosshall, and W.~Vogels, ``Dynamo: amazon's highly
-  available key-value store,'' in \emph{ACM SIGOPS operating systems review},
-  vol.~41, no.~6.\hskip 1em plus 0.5em minus 0.4em\relax ACM, 2007, pp.
-  205--220.
-
-\bibitem{cattell2011scalable}
-R.~Cattell, ``Scalable sql and nosql data stores,'' \emph{Acm Sigmod Record},
-  vol.~39, no.~4, pp. 12--27, 2011.
-
-\bibitem{han2011nosql}
-J.~Han, H.~E, G.~Le, and J.~Du, ``Survey on nosql database,'' in \emph{2011 6th
-  International Conference on Pervasive Computing and Applications}, Oct 2011,
-  pp. 363--366.
-
 \bibitem{abadi2008query}
 D.~J. Abadi, ``Query execution in column-oriented database systems,'' Ph.D.
   dissertation, Massachusetts Institute of Technology, 2008.
