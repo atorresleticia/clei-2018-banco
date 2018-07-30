@@ -80,7 +80,7 @@
 % not capitalized unless they are the first or last word of the title.
 % Linebreaks \\ can be used within to get better formatting as desired.
 % Do not put math or special symbols in the title.
-\title{Avaliando o Impacto da Modelagem de Dados em Aplicações OLAP Utilizando SGBD Relacional e Colunar}
+\title{Avaliando o Impacto da Modelagem de Dados em Aplicações OLAP utilizando SGBD Relacional e Colunar}
 
 
 % author names and affiliations
@@ -100,7 +100,7 @@
 % for over three affiliations, or if they all won't fit within the width
 % of the page, use this alternative format:
 % 
-%\author{\IEEEauthorblockN{Michael Shell\IEEEauthorrefmark{1},
+%\author{\IEEEauthorblockN{Clodis Boscarili\IEEEauthorrefmark{1},
 %Homer Simpson\IEEEauthorrefmark{2},
 %James Kirk\IEEEauthorrefmark{3}, 
 %Montgomery Scott\IEEEauthorrefmark{3} and
@@ -125,7 +125,7 @@
 \maketitle
 \selectlanguage{english}
 \begin{abstract}
-Data Warehouses has consolidate as the decision support technology used by Organizations that uses OLAP applications to access the stored data. As these data volume increases more efficient approaches to process them are needed. To do so, both traditional relational databases management systems and columnar ones can be used, each one with their advantages over the Data Warehouse modeling. More normalized models are traditional among tuple-oriented relational databases, whereas denormalized ones bring a better performance in columnar DBMS. A comparative study between PostgreSQL and MonetDB DBMS using TPC-H as a benchmark is presented here, to investigate which one is indicated to manage a Data Warehouse in information access. The results confirmed that, isolated, in denormalized environments MonetDB excels, while PostgreSQL is better for normalized modeling. In general, MonetDB stands out compared to PostgreSQL, with performance gains of almost 500\% on normalized model, and over 1000\% on the denormalized one.
+Data Warehouses has consolidate as the decision support technology used by Organizations that uses OLAP applications to access the stored data. As these data volume increases more efficient approaches to process them are needed. To do so, both traditional relational databases management systems and columnar ones can be used, each one with their advantages over the Data Warehouse modeling. More normalized models are traditional among tuple-oriented relational databases, whereas denormalized ones bring a better performance in columnar DBMS. A comparative study between MonetDB and PostgreSQL DBMS using TPC-H as a benchmark is presented here, to investigate which one is indicated to manage a Data Warehouse in information access. The results confirmed that, isolated, in denormalized environments MonetDB excels, while PostgreSQL is better for normalized modeling. In general, MonetDB stands out compared to PostgreSQL, with performance gains of almost 500\% on normalized model, and over 1000\% on the denormalized one.
 \end{abstract}
 
 \selectlanguage{portuguese}
@@ -142,15 +142,15 @@ Data Warehouses has consolidate as the decision support technology used by Organ
 
 \section{Introdução}
 
-Organizações cada vez mais se apoiam no armazenamento de dados a fim de recuperar informações para tomadas de decisões de maneira ágil e eficaz. Estes dados são mantidos ao longo do tempo e por vezes são armazenados em sistemas que diminuem a eficiência no acesso e processamento de dados por serem heterogêneos, autônomos e geograficamente distribuídos \cite{wrembel2007data}.
+Organizações cada vez mais se apoiam no armazenamento de dados a fim de recuperar informações para tomadas de decisões de maneira ágil e eficaz. Estes dados são mantidos ao longo do tempo e por vezes, são armazenados em sistemas que diminuem a eficiência no acesso e processamento de dados por serem heterogêneos, autônomos e geograficamente distribuídos \cite{wrembel2007data}.
 
-Como forma de tratar um grande volume de dados, persisti-los e tomar decisões de maneira inteligente e eficiente a tecnologia de \textit{Data Warehouse} é aplicada. Esta tecnologia consiste em um repositório de dados homogêneo, local e centralizado capaz de fornecer informações de diversas fontes de dados \cite{wrembel2007data}; e seu conceito está atrelado a criação de um ambiente com acesso a dados para tomar decisões de forma rápida e efetiva.
+Como forma de tratar um grande volume de dados, persisti-los e tomar decisões de maneira inteligente e eficiente a tecnologia de \textit{Data Warehouse} é aplicada, que consiste em um repositório de dados homogêneo, local e centralizado capaz de fornecer informações de diversas fontes de dados \cite{wrembel2007data}; e seu conceito está atrelado à criação de um ambiente com acesso a dados para tomar decisões de forma rápida e efetiva.
 
 Para uma boa decisão de negócio além de um repositório é necessário uma aplicação que o acesse e traga informações. Aplicações OLAP (\textit{Online Analytical Processing}) estão fortemente associadas a \textit{Data Warehouses} por tratarem de uma análise multidimensional de dados e consultas analíticas. À combinação de um \textit{Data Warehouse} e aplicações OLAP dá-se o nome de ambiente OLAP.
 
-Existe uma série de princípios que devem ser seguidos ao projetar e implantar um ambiente OLAP, destacando-se a rapidez com que os dados devem ser recuperados \cite{codd1998providing, kimball2002dw, wrembel2007data}. Assim, um dos aspectos técnicos a ser considerado é o uso de Sistemas Gerenciadores de Bancos de Dados (SGBD) como gerenciadores de um \textit{Data Warehouse}, e duas classes de SGBD podem ser utilizadas para implementar este ambiente: SGBD relacionais orientados à linha e à coluna. Dada a importância na escolha de um SGBD e as diferentes soluções apresentadas por cada um é viável o uso de um \textit{benchmark} para a análise e conclusão de qual SGBD escolher. Tendo em vista o escopo da decisão de negócio, busca-se um \textit{benchmark} que englobe e trabalhe com foco nisto e que traga uma configuração que se aplique tanto em SGBD relacionais quanto NoSQL. Com esse objetivo, a organização TPC \cite{tpc2017page} desenvolveu um \textit{benchmark} para avaliar o desempenho de SGBD atuando em ambiente OLAP, o TPC-H \cite{tpch2017page}. 
+Existe uma série de princípios que devem ser seguidos ao projetar e implantar um ambiente OLAP, destacando-se a rapidez com que os dados devem ser recuperados \cite{codd1998providing, kimball2002dw, wrembel2007data}. Assim, um dos aspectos técnicos a ser considerado são os Sistemas Gerenciadores de Bancos de Dados (SGBD) usados como gerenciadores de um \textit{Data Warehouse}, e duas classes de SGBD podem ser utilizadas para implementar este ambiente: SGBD relacionais orientados à linha e à coluna. Dada a importância na escolha de um SGBD e as diferentes soluções apresentadas por cada um é viável o uso de um \textit{benchmark} para a análise e conclusão de qual SGBD escolher. Tendo em vista o escopo da decisão de negócio, busca-se um \textit{benchmark} que englobe e trabalhe com foco nisto e que traga uma configuração que se aplique tanto em SGBD relacionais quanto NoSQL. Com esse objetivo, a organização TPC \cite{tpc2017page} desenvolveu um \textit{benchmark} para avaliar o desempenho de SGBD atuando em ambiente OLAP, o TPC-H \cite{tpch2017page}. 
 
-Além dos SGBD, deve-se considerar ainda a modelagem do ambiente para análise de dados. Segundo Bax e Souza \cite{bax2003modelagem} algumas empresas utilizam um ambiente com modelagem normalizada devido a facilidade de manutenção, fácil entendimento da relação entre as entidades e atributos e uma visão mais clara do sistema. Por outro lado, modelos denormalizados são bastante utilizados devido ao ganho de desempenho nas consultas, pela baixa complexidade destas e pela diminuição do número de entidades -- por consequência das operações de junção entre as tabelas.
+Além dos SGBD, deve-se considerar ainda a modelagem do ambiente para análise de dados. Segundo Bax e Souza \cite{bax2003modelagem}, algumas empresas utilizam um ambiente com modelagem normalizada devido a facilidade de manutenção, fácil entendimento da relação entre as entidades e atributos e uma visão mais clara do sistema. Por outro lado, modelos denormalizados são bastante utilizados devido ao ganho de desempenho nas consultas, pela baixa complexidade destas e pela diminuição do número de entidades -- por consequência das operações de junção entre as tabelas.
 
 Dadas as variáveis SGBD relacional orientado à linha e à coluna, bem como ambientes com modelagem denormalizada e normalizada, o objetivo aqui é realizar um estudo comparativo entre SGBD como gerenciadores de um \textit{Data Warehouse} utilizando-se de um \textit{benchmark}. Os SGBD escolhidos foram o PostgreSQL como relacional tradicional, devido a sua ampla utilização no mercado, boa documentação e uso da linguagem SQL sem muitas modificações; e o MonetDB como colunar, por também utilizar-se da linguagem SQL, possuir interface simples através de linhas de comando, e ser o pioneiro entre os bancos colunares desenvolvidos.
 
@@ -164,7 +164,7 @@ Fugindo um pouco da ideia de ACID, aplicações OLAP se aplicam melhor no contex
 
 O processo ETL faz parte da arquitetura de um \textit{Data Warehouse}, e consiste em \textit{extrair} dados de fontes heterogêneas para inseri-los em uma área de armazenamento temporária, denominada \textit{staging area}, onde então será feita uma \textit{transformação} de dados -- limpeza, homogeneização, remoção de redundância e atribuição de chaves aos dados, de acordo com a modelagem do \textit{Data Warehouse}; e por fim o \textit{carregamento} dos registros na área de estruturação, que consiste no \textit{Data Warehouse} em si. Esta área de estruturação trata de como os dados serão organizados, armazenados e disponibilizados para as aplicações analíticas, e é nela que a modelagem conceitual é definida.
 
-Normalmente bancos operacionais utilizam a tradicional modelagem relacional normalizada até a Terceira Forma Normal (3NF). Aplicações OLAP têm por base a modelagem dimensional, ou multidimensional, que faz uma analogia com um cubo para representar seus dados, uma vez que uma informação pode ser vista através de \textit{n} dimensões.
+Normalmente bancos de dados operacionais utilizam a tradicional modelagem relacional normalizada até a Terceira Forma Normal (3NF). Aplicações OLAP têm por base a modelagem dimensional, ou multidimensional, que faz uma analogia com um cubo para representar seus dados, uma vez que uma informação pode ser vista através de \textit{n} dimensões.
 
 % \begin{figure*}[htpb]
 % 	\centering
@@ -176,7 +176,7 @@ Normalmente bancos operacionais utilizam a tradicional modelagem relacional norm
 
 \subsection{Modelagem Dimensional}
 
-Enquanto que uma aplicação OLTP visa um alto nível de normalização, aplicações OLAP priorizam desempenho e portanto um nível maior de denormalização. Ainda não há, porém, consenso acerca da modelagem conceitual no campo do \textit{Data Warehouse} \cite{sen2005comparison}. Apesar disso, a modelagem Entidade-Relacional é voltada para consultas que realizam associações entre dados ao invés de consultas analíticas \cite{kimball2002dw} que visam construir e trazer maior clareza sobre cenários de decisão.
+Enquanto que uma aplicação OLTP visa um alto nível de normalização, aplicações OLAP priorizam desempenho e portanto um nível maior de denormalização. Ainda não há, porém, consenso acerca da modelagem conceitual no campo do \textit{Data Warehouse} \cite{sen2005comparison}. Apesar disso, a modelagem Entidade-Relacional, e a Relacional por consequência, é voltada para consultas que realizam associações entre dados ao invés de consultas analíticas \cite{kimball2002dw} que visam construir e trazer maior clareza sobre cenários de decisão.
 
 Em sua concepção, a modelagem dimensional é composta por tabelas fato e tabelas dimensão.
 
@@ -195,9 +195,7 @@ Os modelos dimensionais compostos por tabelas fato e dimensão aplicados no esco
 
 Com a afirmação de que modelos normalizados são mais fáceis para se dar manutenção não sendo necessário, por exemplo, alterar exaustivamente vários registros de um atributo em uma relação pois ele não será repetido, alguns modelos \textit{star} podem ser trabalhados para oferecer suporte à hierarquia de atributos das tabelas dimensões, criando novas tabelas denominadas subdimensão. Estes modelos \textit{star-normalizados} são conhecidos como \textit{snowflake} e caracterizam bem modelos relacionais de dados.
 
-A fim de comparar qual modelagem pode trazer mais benefícios na recuperação de informações, é crucial o uso de uma ferramenta que consiga fazer o gerenciamento do \textit{Data Warehouse}, desde a modelagem até o acesso aos dados, de maneira inteligente e que traga alguma vantagem para o administrador do banco. Elmasri e Navathe \cite{navathe2011banco} citam os sistemas gerenciadores de banco de dados como solução para isto.
-
-Dentre as vantagens que os tornam úteis como gerenciadores de \textit{Data Warehouses}:
+Para comparar qual modelagem pode trazer mais benefícios na recuperação de informações, é crucial o uso de uma ferramenta que consiga fazer o gerenciamento do \textit{Data Warehouse}, desde a modelagem até o acesso aos dados, de maneira inteligente e que traga alguma vantagem para o administrador do banco. Elmasri e Navathe \cite{navathe2011banco} citam os sistemas gerenciadores de banco de dados como solução para isto. Dentre as vantagens que os tornam úteis como gerenciadores de \textit{Data Warehouses}:
 
 \subsubsection{Controle de redundância} garante que dados não serão gravados mais de uma vez no modelo.
 \subsubsection{Restrição de acesso} usuários não autorizados não terão acesso ao banco.
@@ -218,24 +216,24 @@ Outro fator que torna vantajoso o uso de um SGBD colunar é a compressão de dad
 
 Devido à variação de SGBD que podem ser utilizados em ambientação OLAP, para selecionar o mais adequado a cada modelo de dados a realização de um \textit{benchmark} é o mais indicado, visto que sua função é identificar e definir os melhores padrões de excelência para produtos, serviços e processos, buscando melhorar o desempenho das organizações \cite{kyro2003revising,bhutta1999benchmarking}.
 
-De acordo com o manual de especificação fornecido pelo TPC \cite{tpc2017specs}, o TPC-H é um \textit{benchmark} de suporte à decisão de negócios, constituído de uma série de consultas comerciais \textit{ad-hoc} e modificações simultâneas de dados com finalidade de retratar a realidade das empresas. Ele representa sistemas de suporte a decisão que examinam grandes volumes de dados; executam consultas com um alto grau de complexidade; e respondem questões críticas de negócio. Como modelagem o TPC-H propõe um ambiente \textit{snowflake}, descrito na seção \ref{sec:snowflake}, e os dados a serem inseridos nesse modelo são gerados através de um software desenvolvido pelo próprio TPC, o DBGen. A organização também propõe 22 consultas analíticas para recuperar dados do ambiente respondendo a alguma questão de negócio; e assim como a geração de dados o TPC também traz o QGen, software para geração das consultas.
+De acordo com o manual de especificação fornecido pelo TPC \cite{tpc2017specs}, o TPC-H é um \textit{benchmark} de suporte à decisão de negócios, constituído de uma série de consultas comerciais \textit{ad-hoc} e modificações simultâneas de dados com finalidade de retratar a realidade das empresas. Ele representa sistemas de suporte a decisão que examinam grandes volumes de dados; executam consultas com um alto grau de complexidade; e respondem questões críticas de negócio. Como modelagem o TPC-H propõe um ambiente \textit{snowflake}, descrito na Seção \ref{sec:snowflake}, e os dados a serem inseridos nesse modelo são gerados através de um software desenvolvido pelo próprio TPC, o DBGen. A organização também propõe 22 consultas analíticas para recuperar dados do ambiente respondendo a alguma questão de negócio; e assim como a geração de dados o TPC também traz o QGen, software para geração das consultas.
 
-O TPC-H não apresenta em seu manual de especificação uma modelagem mais denormalizada de dados que seja similar à modelagem \textit{star}. Para tanto, será necessário construir um ambiente denormalizado para as devidas comparações. A descrição desta modelagem adaptada se encontra na seção \ref{sec:star}.
+O TPC-H não apresenta em seu manual de especificação uma modelagem mais denormalizada de dados que seja similar à modelagem \textit{star}. Para tanto, é necessário construir um ambiente denormalizado para as devidas comparações. A descrição desta modelagem adaptada se encontra na Seção \ref{sec:star}.
 
-\subsection{Ambiente Snowflake}
+\subsection{Ambiente \textit{Snowflake}}
 \label{sec:snowflake}
 
 O modelo de ambiente proposto pelo TPC-H é um esquema normalizado baseado na modelagem \textit{snowflake}. Ele é composto por oito entidades, sendo que destas, seis têm o tamanho multiplicado pelo fator de escala analisado; enquanto que as demais, \textit{nation} e \textit{region}, têm tamanho fixo. O relacionamento segue a mesma ideia do modelo dimensional entre fatos e dimensões, onde várias dimensões se relacionam com um fato através de chaves estrangeiras na entidade de fato. A diferença neste esquema é que não existe apenas um fato nas regras de negócio, mas dois, \textit{orders} e \textit{lineitem}. O relacionamento entre as tabelas do esquema \textit{snowflake} pode ser obtido através do manual de especificação do TPC-H \cite{tpc2017specs}.
 
 Os tipos de dados atrelados aos atributos de uma entidade podem ser identificadores, indicando um número inteiro que define a chave primária da entidade; inteiros e decimais; textos fixos e variáveis e datas.
 
-\subsection{Ambiente Star}
+\subsection{Ambiente \textit{Star}}
 \label{sec:star}
 
 \begin{figure*}[htpb]
 	\centering
 		\includegraphics[width=\textwidth]{star}
-	\caption{Esquema do ambiente star}
+	\caption{Esquema do ambiente \textit{star}}
 	\label{fig:star}
 \end{figure*}
 
@@ -342,21 +340,21 @@ O experimento para análise de desempenho foi feito sob uma base de dados de 1GB
 \begin{tabular}{@{}lccc@{}}
 \toprule
           & MySQL  & PostgreSQL & MonetDB \\ \midrule
-Snowflake & 205,49 & 84,688     & 33,54   \\
-Star      & 317    & 170        & 61      \\ \bottomrule
+\textit{Snowflake} & 205,49 & 84,688     & 33,54   \\
+\textit{Star}      & 317    & 170        & 61      \\ \bottomrule
 \end{tabular}
 \end{table}
 
 \begin{figure}[htpb]
   \centering
-  \includegraphics[width=7cm]{carregamento}
+  \includegraphics[width=7cm]{carregamento_2}
   \caption{Gráfico da carga de dados}
   \label{fig:carga}
 \end{figure}
 
-Para se obter um melhor desempenho no carregamento de dados as restrições de chave foram realizadas após a inserção dos dados nos SGBD. Caso a restrição fosse feita na criação do banco a cada novo registro inserido a chave primária seria verificada. Esta carga de dados também foi realizada através dos SGBD de forma direta, sem o uso de \textit{drivers} e outras ferramentas que possam atuar como cliente para conectar-se ao banco, assim evitando incluir o tempo de latência destas no resultado.
+Para obter um melhor desempenho no carregamento de dados as restrições de chave foram realizadas após a inserção dos dados nos SGBD. Caso a restrição fosse feita na criação do banco a cada novo registro inserido a chave primária seria verificada. Esta carga de dados também foi realizada através dos SGBD de forma direta, sem o uso de \textit{drivers} e outras ferramentas que possam atuar como cliente para conectar-se ao banco, assim evitando incluir o tempo de latência destas no resultado.
 
-Logo ao analisar os resultados de carregamento de dados notou-se que um banco denormalizado apresenta certa demora na inserção de dados em relação a um normalizado. Isso se dá por causa da redundância de dados existente neste tipo de modelo, fazendo com que existam mais atributos duplicados em uma mesma entidade, o que aumenta o tamanho das entidades a serem inseridas. Toma-se como exemplo a entidade \textit{nation}: no modelo \textit{snowflake} ela é uma tabela subdimensão e possui 25 registros apenas, enquanto que no modelo denormalizado ela faz parte das tabelas dimensão \textit{supplier} e \textit{customer}, fazendo com que estas duas entidades tenham mais bytes armazenados. A Tabela \ref{tab:tamanho} mostra o tamanho dos arquivos gerados para cada modelo. Note que \textit{part} não tem seu valor alterado por não sofrer alteração entre as modelagens.
+Logo ao analisar os resultados de carregamento de dados notou-se que um banco de dados denormalizado apresentou certa demora na inserção de dados em relação a um normalizado. Isso se dá por causa da redundância de dados existente neste tipo de modelo, fazendo com que existam mais atributos duplicados em uma mesma entidade, o que aumenta o tamanho das entidades a serem inseridas. Toma-se como exemplo a entidade \textit{nation}: no modelo \textit{snowflake} ela é uma tabela subdimensão e possui 25 registros apenas, enquanto que no modelo denormalizado ela faz parte das tabelas dimensão \textit{supplier} e \textit{customer}, fazendo com que estas duas entidades tenham mais bytes armazenados. A Tabela \ref{tab:tamanho} mostra o tamanho dos arquivos gerados para cada modelo. Note que \textit{part} não tem seu valor alterado por não sofrer alteração entre as modelagens.
 
 \begin{table}[htpb]
 \centering
@@ -364,7 +362,7 @@ Logo ao analisar os resultados de carregamento de dados notou-se que um banco de
 \label{tab:tamanho}
 \begin{tabular}{@{}lcc@{}}
 \toprule
-              & Snowflake & Star       \\ \midrule
+              & \textit{Snowflake} & \textit{Star}       \\ \midrule
 Supplier      & 1.409.184   & 2.990.430    \\
 Customer      & 24.346.144  & 48.055.517   \\
 Part          & 24.135.125  & 24.135.125   \\
@@ -383,8 +381,8 @@ A execução começa com o teste de força seguido imediatamente do teste de vaz
 \begin{tabular}{@{}lccc@{}}
 \toprule
           & PostgreSQL & MonetDB \\ \midrule
-Snowflake & 4,5711     & 46,5462   \\
-Star      & 2,2154        & 53,0620     \\ \bottomrule
+\textit{Snowflake} & 4,5711     & 46,5462   \\
+\textit{Star}      & 2,2154        & 53,0620     \\ \bottomrule
 \end{tabular}
 \end{table}
 
@@ -395,8 +393,8 @@ Star      & 2,2154        & 53,0620     \\ \bottomrule
 \begin{tabular}{@{}lccc@{}}
 \toprule
           & PostgreSQL & MonetDB \\ \midrule
-Snowflake & 1566,7346     & 5524,4257   \\
-Star      & 785,1225        & 7243,2810    \\ \bottomrule
+\textit{Snowflake} & 1566,7346     & 5524,4257   \\
+\textit{Star}      & 785,1225        & 7243,2810    \\ \bottomrule
 \end{tabular}
 \end{table}
 
@@ -409,19 +407,19 @@ Tendo os resultados do teste de força e vazão, calculou-se o resultado final d
 \begin{tabular}{@{}lccc@{}}
 \toprule
           & PostgreSQL & MonetDB \\ \midrule
-Snowflake & 84,6271     & 507,0913   \\
-Star      & 41,7061        & 619,9545    \\ \bottomrule
+\textit{Snowflake} & 84,6271     & 507,0913   \\
+\textit{Star}      & 41,7061        & 619,9545    \\ \bottomrule
 \end{tabular}
 \end{table}
 
 \begin{figure}[htpb]
   \centering
-  \includegraphics[width=7cm]{resultado}
+  \includegraphics[width=7cm]{resultado_2}
   \caption{Gráfico do resultado final}
   \label{fig:resultado}
 \end{figure}
 
-Analisando de fato os resultados do \textit{benchmark}, de maneira geral o SGBD que obteve melhores resultados foi o MonetDB, desde a execução isolada dos testes de força e vazão até o resultado final. Em relação aos ambientes o MonetDB denormalizado apresentou resultados melhores, o que reforça o uso de um SGBD colunar em ambientes analíticos denormalizados sob um grande volume de dados. Se tomar apenas o SGBD, o desempenho baixo do PostgreSQL era esperado ao se comparar com um banco colunar devido ao armazenamento e leitura aprimorados do MonetDB, tanto para um ambiente normalizado quanto para um denormalizado. 
+Analisando de fato os resultados do \textit{benchmark}, de maneira geral o SGBD que obteve melhores resultados foi o MonetDB, desde a execução isolada dos testes de força e vazão até o resultado final. Em relação aos ambientes o MonetDB denormalizado apresentou resultados melhores, o que reforça o uso de um SGBD colunar em ambientes analíticos denormalizados sob um grande volume de dados. Se tomar apenas o SGBD, o desempenho baixo do PostgreSQL era esperado ao se comparar com um SGBD colunar devido ao armazenamento e leitura aprimorados do MonetDB, tanto para um ambiente normalizado quanto para um denormalizado. 
 
 Comparando os resultados do PostgreSQL de maneira isolada percebeu-se que a lógica nos resultados não é a mesma do MonetDB, e que outra teoria é reforçada: a de que SGBD relacionais orientados à linha estão fortemente atrelados a modelagens mais normalizadas e são otimizados para se adequar melhor a esta modelagem em ambientes transacionais.
 
@@ -430,7 +428,7 @@ Comparando os resultados do PostgreSQL de maneira isolada percebeu-se que a lóg
 
 O SGBD MonetDB foi superior com quase 500\% de ganho no desempenho final em relação ao PostgreSQL para o ambiente \textit{snowflake}, representando uma diferença de seis vezes no resultado final. Também foi melhor com mais de 1000\% de ganho ao orientado à linha na modelagem \textit{star}, tendo quase 15 vezes o valor do PostgreSQL. Estes resultados como um todo corroboram a ideia de que o uso de SGBD colunar traz vantagens a ambientes OLAP, por adaptar-se melhor à modelagem comumente utilizada por \textit{Data Warehouses} e às suas consultas.
 
-Sugere-se a inclusão de mais SGBD a fim de realizar um comparativo entre SGBD de diferentes classes, a recente abordagem NoSQL por exemplo, analisando seu comportamento sob um ambiente empresarial e também qual impacto a possível ausência de SQL pode trazer ao desempenho, visto que SGBD NoSQL como o MongoDB e o Neo4J utilizam uma linguagem orientada a documentos e a grafos, respectivamente. Também como trabalho futuro, será realizada a aplicação dos resultados do estudo em empresas que não possuam uma modelagem fortemente denormalizada e tampouco utilizem SGBD colunares, a fim de averiguar os resultados encontrados pelo \textit{benchmark}.
+Sugere-se a inclusão de outros SGBD a fim de realizar um comparativo entre SGBD de diferentes classes, a recente abordagem NoSQL por exemplo, analisando seu comportamento sob um ambiente empresarial e também qual impacto a possível ausência de SQL pode trazer ao desempenho, visto que SGBD NoSQL como o MongoDB e o Neo4J utilizam uma linguagem orientada a documentos e a grafos, respectivamente. Também como trabalho futuro, será realizada a aplicação dos resultados do estudo em empresas que não possuam uma modelagem fortemente denormalizada e tampouco utilizem SGBD colunares, a fim de averiguar os resultados encontrados pelo \textit{benchmark}.
 
 
 % An example of a floating figure using the graphicx package.
